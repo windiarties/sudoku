@@ -51,7 +51,7 @@ class Sudoku extends React.Component {
                 [0, 0, 0, 0, 0, 6, 0, 0, 0]
             ],
             gridClear: [],
-            inputGrid: [1, 2, 0, 4, 5, 6, 7, 8, 0],
+            inputGrid: [1, 2, 3, 4, 5, 6, 7, 8, 9],
             row: 0,
             col: 0,
             value: 0,
@@ -178,7 +178,7 @@ class Sudoku extends React.Component {
     }
 
     onChange(){
-        
+
     }
 
 
