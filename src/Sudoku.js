@@ -51,7 +51,7 @@ class Sudoku extends React.Component {
                 [0, 0, 0, 0, 0, 6, 0, 0, 0]
             ],
             gridClear: [],
-            supplyGrid: [1, 2, 0, 4, 5, 6, 7, 8, 0],
+            inputGrid: [1, 2, 0, 4, 5, 6, 7, 8, 0],
             row: 0,
             col: 0,
             value: 0,
@@ -83,74 +83,104 @@ class Sudoku extends React.Component {
         var gridClear = this.state.gridClear
         this.setState({ gridNow: gridClear })
     }
-    // solveSudoku(grid, row, col) {
-    //     if (col > 8) {
-    //         row++;
-    //         col = 0;
-    //         if (row > 8 && col > 8) {
-    //             console.log(grid);
-    //             return;
-    //         }
-    //     }
-    //     if (grid[row][col] === 0) { //
-    //         index = Math.floor(Math.random() * supplyGrid.length);
-    //         value = supplyGrid[index];
-    //         if (isValid(row, col, value)) {
-    //             grid[row][col] = value;
-    //             col++;
-    //             supplyGrid = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    //             solveSudoku(grid, row, col);
-    //         } else {
-    //             supplyGrid.splice(index, 1);
-    //             console.log(supplyGrid);
-    //             if (supplyGrid.length < 1) {
-    //                 //backtrack();
-    //                 console.log('Out of numbers');
-    //                 return;
-    //             }
-    //             solveSudoku(grid, row, col);
-    //         }
-    //     } else { //row = 3, col = 5
-    //         solveSudoku(grid, row, ++col);
-    //     }
-    //     return this;
-    // }
 
-    // isValid(row, col, value) {
-    //     if ((validateColumn(row, col, value)) || (validateRow(row, col, value)) || (validateBox(row, col, value))) {
-    //         return false;
-    //     } else {
-    //         return true;
-    //     }
-    // }
+    solveSudoku(grid, col, row) {
+        var col = this.state.col;
+        var row = this.state.row;
+        var grid = this.state.gridNow;
+        var inputGrid = this.state.inputGrid;
 
-    // validateBox(row, col, value) {
-    //     row = Math.floor(row / 3) * 3;
-    //     col = Math.floor(col / 3) * 3;
-    //     var isFound = false;
-    //     for (var i = 0; i < 3; i++) {
-    //         for (var j = 0; j < 3; j++) {
-    //             if (grid[row + i][col + j] == value) isFound = true;
-    //         }
-    //     }
-    //     return isFound;
-    // }
+        if (col > 8) {
+            row++;
+            col = 0;
+            if (row > 8 && col > 8) {
+                console.log(grid);
+                return;
+            }
+        }
+        if (grid[row][col] === 0) { //
+            var index = Math.floor(Math.random() * inputGrid.length);
+            var value = inputGrid[index];
+            if (isValid(row, col, value)) {
+                grid[row][col] = value;
+                col++;
+                inputGrid = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+                solveSudoku(grid, row, col);
+            } else {
+                inputGrid.splice(index, 1);
+                console.log(inputGrid);
+                if (inputGrid.length < 1) {
+                    console.log('Out of numbers');
+                    return;
+                }
+                solveSudoku(grid, row, col);
+            }
+        } else { //row = 3, col = 5
+            solveSudoku(grid, row, ++col);
+        }
+        return this;
+    }
 
-    // validateRow(row, col, value) {
-    //     var isFound = false;
-    //     for (var i = 0; i < 9; i++) {
-    //         if (grid[row][i] === value) isFound = true;
-    //     }
-    //     return isFound;
-    // }
+    isValid(row, col, value) {
+        var col = this.state.col;
+        var row = this.state.row;
+        var index = Math.floor(Math.random() * inputGrid.length);
+        var value = inputGrid[index];
 
-    // validateColumn(row, col, value) {
-    //     var isFound = false;
-    //     for (var i = 0; i < 9; i++) {
-    //         if (grid[i][col] === value) isFound = true;
-    //     }
-    //     return isFound;
-    // }
+        if ((validateColumn(row, col, value)) || (validateRow(row, col, value)) || (validateBox(row, col, value))) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    validateBox(row, col, value) {
+        var col = this.state.col;
+        var row = this.state.row;
+        var index = Math.floor(Math.random() * inputGrid.length);
+        var value = inputGrid[index];
+        
+        var rowIndex = Math.floor(row / 3) * 3;
+        var colIndex = Math.floor(col / 3) * 3;
+
+        var isFound = false;
+
+        for (var i = 0; i < 3; i++) {
+            for (var j = 0; j < 3; j++) {
+                if (gridNow[rowIndex + i][colIndex + j] == value) isFound = true;
+            }
+        }
+        return isFound;
+    }
+
+    validateRow(row, value) {
+        var row = this.state.row;
+        var index = Math.floor(Math.random() * inputGrid.length);
+        var value = inputGrid[index];
+
+        var isFound = false;
+        for (var i = 0; i < 9; i++) {
+            if (gridNow[row][i] === value) isFound = true;
+        }
+        return isFound;
+    }
+
+    validateColumn(col, value) {
+        var col = this.state.col;
+        var index = Math.floor(Math.random() * inputGrid.length);
+        var value = inputGrid[index];
+
+        var isFound = false;
+        for (var i = 0; i < 9; i++) {
+            if (gridNow[i][col] === value) isFound = true;
+        }
+        return isFound;
+    }
+
+    onChange(){
+        
+    }
+
 
     render() {
 
