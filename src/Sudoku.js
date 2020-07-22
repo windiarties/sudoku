@@ -5,52 +5,54 @@ class Sudoku extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            // grid: [
-            //     [' ', '9', ' ', ' ', '4', '2', '1', '3', '6'],
-            //     [' ', ' ', ' ', '9', '6', ' ', '4', '8', '5'],
-            //     [' ', ' ', ' ', '5', '8', '1', ' ', ' ', ' '],
-            //     [' ', ' ', '4', ' ', ' ', ' ', ' ', ' ', ' '],
-            //     ['5', '1', '7', '2', ' ', ' ', '9', ' ', ' '],
-            //     ['6', ' ', '2', ' ', ' ', ' ', '3', '7', ' '],
-            //     ['1', ' ', ' ', '8', ' ', '4', ' ', '2', ' '],
-            //     ['7', ' ', '6', ' ', ' ', ' ', '8', '1', ' '],
-            //     ['3', ' ', ' ', ' ', '9', ' ', ' ', ' ', ' '],
-            // ],
             gridEasy: [
-                [0, 9, 0, 0, 4, 2, 1, 3, 6],
-                [0, 0, 0, 9, 6, 0, 4, 8, 5],
-                [0, 0, 0, 5, 8, 1, 0, 0, 0],
-                [0, 0, 4, 0, 0, 0, 0, 0, 0],
-                [5, 1, 7, 2, 0, 0, 9, 0, 0],
-                [6, 0, 2, 0, 0, 0, 3, 7, 0],
-                [1, 0, 0, 8, 0, 4, 0, 2, 0],
-                [7, 0, 6, 0, 0, 0, 8, 1, 0],
-                [3, 0, 0, 0, 9, 0, 0, 0, 0],
+                ['', '9', '', '', '4', '2', '1', '3', '6'],
+                ['', '', '', '9', '6', '', '4', '8', '5'],
+                ['', '', '', '5', '8', '1', '', '', ''],
+                ['', '', '4', '', '', '', '', '', ''],
+                ['5', '1', '7', '2', '', '', '9', '', ''],
+                ['6', '', '2', '', '', '', '3', '7', ''],
+                ['1', '', '', '8', '', '4', '', '2', ''],
+                ['7', '', '6', '', '', '', '8', '1', ''],
+                ['3', '', '', '', '9', '', '', '', ''],
             ],
-            gridNow: [],
+            gridNow: [[], [], [], [], [], [], [], [], []],
+            grid: [[], [], [], [], [], [], [], [], []],
             gridMedium: [
-                [1, 0, 3, 0, 0, 0, 0, 8, 4],
-                [0, 0, 6, 0, 4, 8, 0, 0, 0],
-                [0, 4, 0, 0, 0, 0, 0, 0, 0],
-                [2, 0, 0, 0, 9, 6, 1, 0, 0],
-                [0, 9, 0, 8, 0, 1, 0, 4, 0],
-                [0, 0, 4, 3, 2, 0, 0, 0, 8],
-                [0, 0, 0, 0, 0, 0, 0, 7, 0],
-                [0, 0, 0, 1, 5, 0, 4, 0, 0],
-                [0, 6, 0, 0, 0, 0, 2, 0, 3]
+                ['1', '', '3', '', '', '', '', '8', '4'],
+                ['', '', '6', '', '4', '8', '', '', ''],
+                ['', '4', '', '', '', '', '', '', ''],
+                ['2', '', '', '', '9', '6', '1', '', ''],
+                ['', '9', '', '8', '', '1', '', '4', ''],
+                ['', '', '4', '3', '2', '', '', '', '8'],
+                ['', '', '', '', '', '', '', '7', ''],
+                ['', '', '', '1', '5', '', '4', '', ''],
+                ['', '6', '', '', '', '', '2', '', '3']
             ],
             gridHard: [
-                [5, 1, 0, 0, 0, 4, 0, 7, 0],
-                [0, 0, 4, 2, 0, 0, 0, 3, 0],
-                [0, 0, 0, 6, 0, 0, 0, 0, 9],
-                [3, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 5, 0, 0, 2, 0, 7, 0, 0],
-                [9, 0, 0, 3, 7, 0, 4, 0, 0],
-                [0, 0, 1, 7, 4, 0, 3, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 5, 7],
-                [0, 0, 0, 0, 0, 6, 0, 0, 0]
+                ['5', '1', '', '', '', '4', '', '7', ''],
+                ['', '', '4', '2', '', '', '', '3', ''],
+                ['', '', '', '6', '', '', '', '', '9'],
+                ['3', '', '', '', '', '', '', '', ''],
+                ['', '5', '', '', '2', '', '7', '', ''],
+                ['9', '', '', '3', '7', '', '4', '', ''],
+                ['', '', '1', '7', '4', '', '3', '', ''],
+                ['', '', '', '', '', '', '', '5', '7'],
+                ['', '', '', '', '', '6', '', '', '']
             ],
-            gridClear: [],
+            gridClear: [
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+                ['', '', '', '', '', '', '', '', ''],
+
+            ],
+            isReset: false,
             inputGrid: [1, 2, 3, 4, 5, 6, 7, 8, 9],
             row: 0,
             col: 0,
@@ -62,6 +64,7 @@ class Sudoku extends React.Component {
         this.isEasy = this.isEasy.bind(this)
         this.isHard = this.isHard.bind(this)
         this.isClear = this.isClear.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
 
@@ -84,103 +87,77 @@ class Sudoku extends React.Component {
         this.setState({ gridNow: gridClear })
     }
 
-    solveSudoku(grid, col, row) {
-        var col = this.state.col;
-        var row = this.state.row;
-        var grid = this.state.gridNow;
+    componentDidMount() {
+        this.isEasy()
+        this.isHard()
+        this.isMedium()
+    }
+
+
+    handleChange(e, index) {
+        // for (let r = 0; r < 9; r++) {
+        //     for (let c = 0; c < 9; c++) {
+        //         var tmp = this.state.gridNow;
+        //         tmp[r][c] = e.target.value
+        //         this.setState({
+        //             gridNow: tmp
+        //         })
+        //     }
+        // }
+        var tmp = this.state.gridNow;
+        tmp[index] = e.target.value;
+
+        this.setState({
+            gridNow: tmp
+        })
+    }
+
+    async resetGrid() {
+
+        this.setState({
+            isReset: true
+        })
+
+        this.isEasy()
+    }
+
+    isValid() {
+        // if ((this.validateColumn()) || (this.validateRow()) || (this.validateBox())) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
+    }
+
+    solveSudoku() {
         var inputGrid = this.state.inputGrid;
+        var gridNow = this.state.gridNow;
 
-        if (col > 8) {
-            row++;
-            col = 0;
-            if (row > 8 && col > 8) {
-                console.log(grid);
-                return;
-            }
-        }
-        if (grid[row][col] === 0) { //
-            var index = Math.floor(Math.random() * inputGrid.length);
-            var value = inputGrid[index];
-            if (isValid(row, col, value)) {
-                grid[row][col] = value;
-                col++;
-                inputGrid = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-                solveSudoku(grid, row, col);
-            } else {
-                inputGrid.splice(index, 1);
-                console.log(inputGrid);
-                if (inputGrid.length < 1) {
-                    console.log('Out of numbers');
-                    return;
+        for (let r = 0; r < 9; r++) {
+            for (let c = 0; c < 9; c++) {
+                if (gridNow[r][c] === 0) {
+                    if (this.isValid()) {
+                        var index = Math.floor(Math.random() * inputGrid.length);
+                        var value = inputGrid[index];
+                        gridNow[r][c] = value;
+                        this.state.col++;
+                    } else {
+                        inputGrid.splice(index, 1);
+                        console.log(inputGrid);
+                        if (inputGrid.length < 1) {
+                            console.log('Wrong Number');
+                            return;
+                        }
+                        this.solveSudoku();
+                    }
+                } else {
+                    this.solveSudoku();
+                    console.log("Error")
                 }
-                solveSudoku(grid, row, col);
-            }
-        } else { //row = 3, col = 5
-            solveSudoku(grid, row, ++col);
-        }
-        return this;
-    }
-
-    isValid(row, col, value) {
-        var col = this.state.col;
-        var row = this.state.row;
-        var index = Math.floor(Math.random() * inputGrid.length);
-        var value = inputGrid[index];
-
-        if ((validateColumn(row, col, value)) || (validateRow(row, col, value)) || (validateBox(row, col, value))) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    validateBox(row, col, value) {
-        var col = this.state.col;
-        var row = this.state.row;
-        var index = Math.floor(Math.random() * inputGrid.length);
-        var value = inputGrid[index];
-        
-        var rowIndex = Math.floor(row / 3) * 3;
-        var colIndex = Math.floor(col / 3) * 3;
-
-        var isFound = false;
-
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3; j++) {
-                if (gridNow[rowIndex + i][colIndex + j] == value) isFound = true;
+                return this;
             }
         }
-        return isFound;
     }
-
-    validateRow(row, value) {
-        var row = this.state.row;
-        var index = Math.floor(Math.random() * inputGrid.length);
-        var value = inputGrid[index];
-
-        var isFound = false;
-        for (var i = 0; i < 9; i++) {
-            if (gridNow[row][i] === value) isFound = true;
-        }
-        return isFound;
-    }
-
-    validateColumn(col, value) {
-        var col = this.state.col;
-        var index = Math.floor(Math.random() * inputGrid.length);
-        var value = inputGrid[index];
-
-        var isFound = false;
-        for (var i = 0; i < 9; i++) {
-            if (gridNow[i][col] === value) isFound = true;
-        }
-        return isFound;
-    }
-
-    onChange(){
-
-    }
-
 
     render() {
 
@@ -199,22 +176,22 @@ class Sudoku extends React.Component {
                         this.state.gridNow.map((row, i) =>
                             <React.Fragment>
                                 <tr>
-                                    <td><input id="cell" type="text" value={row[0]} /></td>
-                                    <td><input id="cell" type="text" value={row[1]} /></td>
-                                    <td><input id="cell" type="text" value={row[2]} /></td>
-                                    <td><input id="cell" type="text" value={row[3]} /></td>
-                                    <td><input id="cell" type="text" value={row[4]} /></td>
-                                    <td><input id="cell" type="text" value={row[5]} /></td>
-                                    <td><input id="cell" type="text" value={row[6]} /></td>
-                                    <td><input id="cell" type="text" value={row[7]} /></td>
-                                    <td><input id="cell" type="text" value={row[8]} /></td>
+                                    <td><input type="text" value={row[0]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[1]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[2]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[3]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[4]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[5]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[6]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[7]} onChange={(e) => this.handleChange(e, [i])} /></td>
+                                    <td><input type="text" value={row[8]} onChange={(e) => this.handleChange(e, [i])} /></td>
                                 </tr>
                             </React.Fragment>
                         )
                     }
 
                 </table>
-                <button type="button" class="btn btn-outline-secondary">Reset</button>
+                <button type="button" class="btn btn-outline-secondary" onClick={this.isReset}>Reset</button>
             </div>
 
         )
